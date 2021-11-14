@@ -1,0 +1,100 @@
+@code_type c .c
+@comment_type // %s %author
+@compiler lit -t ray-tracing.lit && gcc ray-tracing.c
+@author Tobi Lehman
+
+@title Literate Ray Tracing
+
+@s Introduction
+
+A **ray tracer** is a program that renders 2D images using mathematical descriptions of 3D scenes. The basic idea is to imagine the rays of light reflecting off the objects in 3D, then inspect those rays that hit a 2D rectangle in front of the "camera".
+
+One way to simplify this problem is to work backwards, or take the pixels of the image, and then **trace** the **ray** back to it's origin. If the origin is on the surface of an object, you can use that point's color as the color of the pixel.
+
+As an example, let's populate a 3D space with a bunch of random spheres, with random color. A sphere is defined by a position `(x,y,z)`, a `radius` and a color `(r,g,b)`.
+
+--- Sphere definition
+struct Sphere {
+    float x,y,z;
+    float r,g,b;
+    float radius;
+}
+---
+
+@s Structure of the program
+
+The program includes all the necessary dependencies, defines the `Sphere` type, prepares the random 3D spheres as input. Then it loops over all the pixels, tracing the ray backwards until it intersects with something, and computes the color of the pixel based on that intersection.
+
+--- ray-tracer.c
+@{Includes}
+
+@{Sphere definition}
+
+int main(int argc, char *argv[]) {
+    @{Prepare random sphere input}
+    @{Output image parameters}
+
+    @{Loop over all pixels}
+        @{Trace the ray backwards from this pixel}
+    @{End loop over all pixels}
+
+    return 0;
+}
+
+---
+
+@s Ray Tracing to see into 3D space
+
+Assume we have a pixel on the screen you are looking at right now. That pixel has coordinates `x,y`. What color should that pixel be?
+
+--- Trace the ray backwards from this pixel
+// Color of this pixel starts out as black (0,0,0)
+float r=0, g=0, b=0;
+// 
+---
+
+
+@s Generating random spheres
+
+This will be an array of spheres, randomly generated. 
+
+--- Prepare random sphere input
+Sphere s[10];
+for(int i = 0; i < 10; i++) {
+    s[i].x = rand();
+}
+---
+
+
+@s Housekeeping
+
+As an experiment in readability, the [pseudocode in the main structure section](#1:2) will be made real here. The purpose of this is to make the program easier to understand for non-programmers, or programmers who are not familiar with C/C++.
+
+--- Output image parameters
+int width = 640;
+int height = 480;
+---
+
+--- Loop over all pixels
+for(int x = 0; x < width; x++) {
+    for(int y = 0; y < height; y++) {
+--- 
+
+--- End loop over all pixels
+    }
+}
+---
+
+
+
+@s Dependencies
+
+To begin, we will just print out a grid of numbers, to inspect. After that is complete, I will re-write this section to generate the image.
+
+Also, since we are randomizing the input, we will need the standard library (`stdlib.h`).
+
+
+--- Includes
+#include <stdlib.h>
+#include <stdio.h>
+---

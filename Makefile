@@ -1,21 +1,21 @@
 release: lit/markdown/source d-files
 	@mkdir -p bin
-	../bin/dub build --build=release
+	dub build --build=release
 	@rm bin/tangle
 
 debug: lit/markdown/source d-files
 	@mkdir -p bin
-	../bin/dub build
+	dub build
 
 bin/tangle:
-	../bin/dub --root=lit/tangle build
+	dub --root=lit/tangle build
 
 d-files: bin/tangle
 	@mkdir -p source
 	bin/tangle -odir source lit/*.lit
 
 test: lit
-	../bin/dub test
+	dub test
 
 lit/markdown/source:
 	@if [ ! -s lit/markdown/source ]; then \
@@ -28,12 +28,12 @@ lit/markdown/source:
 	fi;
 
 clean:
-	../bin/dub clean
-	../bin/dub clean --root=lit/markdown
-	../bin/dub clean --root=lit/tangle
+	dub clean
+	dub clean --root=lit/markdown
+	dub clean --root=lit/tangle
 
 clean-all:
-	../bin/dub clean
-	../bin/dub clean --root=lit/markdown
-	../bin/dub clean --root=lit/tangle
+	dub clean
+	dub clean --root=lit/markdown
+	dub clean --root=lit/tangle
 	rm -rf bin source
