@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 
 @s Ray Tracing to see into 3D space
 
-Assume we have a pixel on the screen you are looking at right now. That pixel has coordinates `x,y`. What color should that pixel be?
+Assume you are looking at a pixel with coordinates `(x,y)`. What color should that pixel be?
 
 --- Trace the ray backwards from this pixel
 // Color of this pixel starts out as black (0,0,0)
